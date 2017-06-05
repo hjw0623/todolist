@@ -12,27 +12,11 @@ public class TodoSqls {
 			"SELECT id, todo, completed, date FROM todo WHERE id= :id";
 	//SELECT All query
 	 static final String SELECT_ALL =
-				"SELECT *  FROM todo";
+			"SELECT id, todo, completed, date  FROM todo";
 	
 	//UPDATE query
 	 static final String UPDATE =
 			"UPDATE todo SET\n"
-			+ "todo = :todo,"
 			+ "completed = :completed\n"
 			+ "WHERE id = :id" ;
-	
-	//getter
-	public static String getSelectAll() {
-		return SELECT_ALL;
-	}
-	public static String getDeleteById() {
-		return DELETE_BY_ID;
-	}
-	public static String getSelectById() {
-		return SELECT_BY_ID;
-	}
-	public static String getUpdate() {
-		return UPDATE;
-	}
-	
 }

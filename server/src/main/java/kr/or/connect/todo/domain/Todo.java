@@ -9,7 +9,13 @@ public class Todo {
 	private Timestamp date;
 	//default constructor
 	public Todo(){}
+	public Todo(String todo){
+		super();
+		this.todo = todo;
+	}
+	
 	public Todo(String todo, Integer completed, Timestamp date) {
+		super();
 		this.todo = todo;
 		this.completed = completed;
 		this.date = date;

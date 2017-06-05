@@ -35,7 +35,12 @@ public class TodoDao {
 		SqlParameterSource params = new BeanPropertySqlParameterSource(todo);
 		return insertAction.executeAndReturnKey(params).intValue();
 	}
-	
+	//SELECT ALL
+	public List<Todo> selectAll(){
+		Map<String, Object> params = Collections.emptyMap();
+		return jdbc.query(TodoSqls.SELECT_ALL, params, rowMapper);
+	}
+		
 	//UPDATE query
 	public int update(Todo todo){
 		SqlParameterSource params = new BeanPropertySqlParameterSource(todo);
@@ -49,11 +54,6 @@ public class TodoDao {
 		return jdbc.queryForObject(TodoSqls.SELECT_BY_ID, params, rowMapper);
 	}
 	
-	//SELECT ALL
-	public List<Todo> selectAll(){
-		Map<String, Object> params = Collections.emptyMap();
-		return jdbc.query(TodoSqls.SELECT_ALL, params, rowMapper);
-	}
 	
 	//DELETE query
 	public int deleteById(Integer id){
@@ -61,9 +61,9 @@ public class TodoDao {
 		return jdbc.update(TodoSqls.DELETE_BY_ID, params);
 	}
 	
-	//DELETE query
-	public int deleteByCompleted(Integer id){
-		Map<String, ?> params = Collections.singletonMap("id", id);
+	//DELETE COMPLETED query
+	public int deleteByCompleted(){
+		Map<String, ?> params = Collections.singletonMap("completed", 1);
 		return jdbc.update(TodoSqls.DELETE_BY_COMPLETED, params);
 	}
 }

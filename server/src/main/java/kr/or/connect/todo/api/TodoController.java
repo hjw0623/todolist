@@ -18,42 +18,23 @@ import kr.or.connect.todo.domain.Todo;
 import kr.or.connect.todo.service.TodoService;
 import java.util.Collection;
 import java.util.List;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 @RestController
-@RequestMapping("/api/todos") //   
+@RequestMapping("/api/todos") 
 public class TodoController {	
-	@Autowired
-	TodoService service; 
-	/*
+	 TodoService service; 
+	 private final Logger log = LoggerFactory.getLogger(TodoController.class);
+	
 	@Autowired
 	public TodoController(TodoService service){
 		this.service = service;
 	}
-	*/
+	
 	//select All query
 	@GetMapping
 	List<Todo> readList(){
 		return service.findAll();
-	}
-	//update
-	@PutMapping
-	@ResponseStatus(HttpStatus.NO_CONTENT)
-	void update(@PathVariable Integer id, @RequestBody Todo todo){
-		todo.setId(id);
-		service.update(todo);
-	}
-	
-	//delete
-	@DeleteMapping("/{id}")
-	@ResponseStatus(HttpStatus.NO_CONTENT)
-	void delete(@PathVariable Integer id){
-		service.delete(id);
-	}
-	//delete by completed
-	@DeleteMapping
-	@ResponseStatus(HttpStatus.NO_CONTENT)
-	void deleteCompleted(){
-	//	service.delete();
 	}
 	
 	//select By Get Method
@@ -61,11 +42,42 @@ public class TodoController {
 	Todo read(@PathVariable Integer id){
 		return service.findById(id);
 	}
-	
+
 	//insert
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	Todo create(@RequestBody Todo todo){
-		return service.create(todo);
+		Todo nTodo = service.create(todo);
+		log.info("todo created: {}", nTodo);
+		return nTodo; //new Todo
 	}
+	
+	//update
+	@PutMapping("/{id}")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	void update(@PathVariable Integer id, @RequestBody Todo todo){
+	
+		service.update(todo);
+		//log.info("todo updated");
+	}
+	
+	//delete
+	@DeleteMapping("/{id}")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	void delete(@PathVariable Integer id){
+		service.delete(id);
+		log.info("todo deleted");
+	}
+	
+	//delete by completed
+	@DeleteMapping
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	void deleteCompleted(){
+	//	service.delete();
+		service.deleteCompleted();
+		log.info("delete completed");
+	}
+	
+	
+	
 }
