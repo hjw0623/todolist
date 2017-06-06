@@ -1,13 +1,11 @@
 package kr.or.connect.todo.api;
 
-
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.*;
 
 import java.sql.Timestamp;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
