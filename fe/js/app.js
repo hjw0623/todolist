@@ -9,31 +9,31 @@
 			type:'GET',
 			url: listUrl,
 			success: function (list){
-				$('.todo-list').empty();
-				
+				$('.todo-list').empty();		
 				var todoCount = 0; //미완성 Todo를 카운트한다.
-
 				$.each(list, function(){
 					var element = $(this).get(0);
 					var text;
 					if(element.completed==1){
 						text = '<li class="completed"><div class="view" id="' 
-							+ element.id + '"><input class="toggle" type="checkbox" checked="checked"><label>' 
-							+ element.todo + '</label><button class="destroy"></button></div></li>';
+							+ element.id 
+							+ '"><input class="toggle" type="checkbox" checked="checked"><label>' 
+							+ element.todo 
+							+ '</label><button class="destroy"></button></div></li>';
 					}
 					else{
 						text = '<li><div class="view" id="' 
-							+ element.id + '"><input class="toggle" type="checkbox"><label>' 
-							+ element.todo + '</label><button class="destroy"></button></div></li>';
+							+ element.id 
+							+ '"><input class="toggle" type="checkbox"><label>' 
+							+ element.todo 
+							+ '</label><button class="destroy"></button></div></li>';
 							todoCount++;
 					}
 					$('.todo-list').append(text);
 					$('.todo-count').children('strong').text(todoCount);
 				});
-
 				//필터링 작업
 				doCheckFilter();
-			
 			}, //end of success
 		})
 	}
@@ -76,7 +76,6 @@
 					$(this).hide();
 				}
 			});
-			console.log($('.filters a'));
 			$('#Completed').addClass('selected');
 		}
 		//else if active selected,
@@ -113,7 +112,6 @@
 		}
 	});
 	function doInsert(insertUrl, data){
-		console.log("data:",data);
 		$.ajax({
 			method:"POST",
 			url: insertUrl,
@@ -131,16 +129,17 @@
 			todo.todo = element.todo;
 			todo.completed = element.completed;
 			todo.date = element.date;
-			//console.log(todo.date);
+
 			//삽입시, 미완성 리스트이므로 All과 Active에서만 보이도록 집어넣는다.
 			if($('#All').hasClass('selected')|| $('#Active').hasClass('selected')){
 				var TXT = '<li><div class="view" id="' 
-					+ todo.id + '"><input class="toggle" type="checkbox"><label>' 
-					+ todo.todo + '</label><button class="destroy"></button></div></li>';
-
-			$('.todo-list').append(TXT);
-			var len = Number($('.todo-count').children('strong').text())+1;
-			$('.todo-count').children('strong').text(len);
+					+ todo.id 
+					+ '"><input class="toggle" type="checkbox"><label>' 
+					+ todo.todo 
+					+ '</label><button class="destroy"></button></div></li>';
+				$('.todo-list').append(TXT);
+				var len = Number($('.todo-count').children('strong').text())+1;
+				$('.todo-count').children('strong').text(len);
 			}	
 		});
 	} //end of Insert
@@ -155,7 +154,7 @@
 	}
 	//Update
 	$('.todo-list').on("click", ".toggle", function(){
-		//console.log($(this));
+
 		var $li = $(this).parents('li');
 		var isCompleted = 0;
 		var id =  $(this).parent().get(0).id;
@@ -201,7 +200,7 @@
 			url: deleteUrl,
 			success : function(element){
 					getList(URL);
-				}
+			}
 		});
 	}
 	/*============================================*/
