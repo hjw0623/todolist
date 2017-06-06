@@ -46,7 +46,7 @@ public class TodoService {
 		return dao.selectAll();
 	}
 	
-	//
+	//insert todo query
 	public Todo create(Todo todo){
 		todo.setCompleted(0); //default.
 		todo.setDate( new Timestamp(System.currentTimeMillis()));

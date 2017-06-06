@@ -13,7 +13,6 @@ public class Todo {
 		super();
 		this.todo = todo;
 	}
-	
 	public Todo(String todo, Integer completed, Timestamp date) {
 		super();
 		this.todo = todo;

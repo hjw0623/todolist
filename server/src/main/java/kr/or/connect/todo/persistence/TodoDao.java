@@ -47,13 +47,12 @@ public class TodoDao {
 		return jdbc.update(TodoSqls.UPDATE, params);
 	}
 	
-	//SELECT BY ID query useless 
+	//SELECT BY ID query 
 	public Todo selectById(Integer id){
 		Map<String, Object> params = new HashMap<>();
 		params.put("id", id);
 		return jdbc.queryForObject(TodoSqls.SELECT_BY_ID, params, rowMapper);
 	}
-	
 	
 	//DELETE query
 	public int deleteById(Integer id){

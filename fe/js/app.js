@@ -4,6 +4,7 @@
 	//var TodoLeft = 0;
 	var todo ;
 
+	//Todo Object for update
 	function TodoObj(id, todo, completed, date){
 		this.id = id;
 		this.todo = todo;
@@ -17,10 +18,9 @@
 		todo = $(this).parent();
 		var deleteTarget = todo.get(0).id;
 		var deleteUrl = URL+'/'+deleteTarget;
-		//todo.completed = $(this).parent().parent('li').hasClass("completed");
 		doDelete (deleteUrl, todo);
 		$(this).parents('li').remove();
-	});	
+	});
 	function doDelete(deleteUrl, data){
 		$.ajax({
 			type:'DELETE',
@@ -55,11 +55,7 @@
 				var jsonData = JSON.stringify(newTodo); //json화 시킨다
 				doInsert(URL, jsonData);
 			}
-			else if (newTodoText===''){
-			//	alert("Todo must be not empty ");
-			}
 		}
-
 	});
 	function doInsert(insertUrl, data){
 		console.log("data:",data);
@@ -70,7 +66,6 @@
 			dataType: "json",
 			data: data,
 			success: function(){
-					//doCheckFilter();			
 					getList(URL);
 			}	
 		}).done(function(element){
@@ -81,11 +76,12 @@
 			todo.todo = element.todo;
 			todo.completed = element.completed;
 			todo.date = element.date;
-			
+			//console.log(todo.date);
+			//삽입시, 미완성 리스트이므로 All과 Active에서만 보이도록 집어넣는다.
 			if($('#All').hasClass('selected')|| $('#Active').hasClass('selected')){
-					var TXT = '<li><div class="view" id="' 
-						+ todo.id + '"><input class="toggle" type="checkbox"><label>' 
-						+ todo.todo + '</label><button class="destroy"></button></div></li>';
+				var TXT = '<li><div class="view" id="' 
+					+ todo.id + '"><input class="toggle" type="checkbox"><label>' 
+					+ todo.todo + '</label><button class="destroy"></button></div></li>';
 
 			$('.todo-list').append(TXT);
 			var len = Number($('.todo-count').children('strong').text())+1;
@@ -96,8 +92,6 @@
 		});
 	
 	} //end of Insert
-
-
 	//Update
 	$('.todo-list').on("click", ".toggle", function(){
 		//console.log($(this));
@@ -155,7 +149,7 @@
 		}
 		filterView(selectedFilter);
 	}
-	//filter view
+	//filter view - filter체크를 통해 분류한 리스트를 보여준다.
 	function filterView(selectedFilter){
 		$('.filters a').removeClass();
 		if(selectedFilter ==="#/completed"){
@@ -189,45 +183,41 @@
 		}
 	}
 
-	
-
-
-	//Get List
-	function getList(listUrl, filter){
+	//Get List -- 모든 목록을 가져온다.
+	function getList(listUrl){
 		$.ajax({
 			type:'GET',
 			url: listUrl,
 			success: function (list){
-				//console.log(list);
 				$('.todo-list').empty();
 				
-				var liClassType="";
-				var inputCheckType="";
-				var todoCount = 0;
+				var todoCount = 0; //미완성 Todo를 카운트한다.
 
 				$.each(list, function(){
-						var element = $(this).get(0);
-						var text;
-						if(element.completed==1){
-							text = '<li class="completed"><div class="view" id="' 
-								+ element.id + '"><input class="toggle" type="checkbox" checked="checked"><label>' 
-								+ element.todo + '</label><button class="destroy"></button></div></li>';
-						}
-						else{
-							text = '<li><div class="view" id="' 
-								+ element.id + '"><input class="toggle" type="checkbox"><label>' 
-								+ element.todo + '</label><button class="destroy"></button></div></li>';
-								todoCount++;
-						}
-						$('.todo-list').append(text);
-						$('.todo-count').children('strong').text(todoCount);
+					var element = $(this).get(0);
+					var text;
+					if(element.completed==1){
+						text = '<li class="completed"><div class="view" id="' 
+							+ element.id + '"><input class="toggle" type="checkbox" checked="checked"><label>' 
+							+ element.todo + '</label><button class="destroy"></button></div></li>';
+					}
+					else{
+						text = '<li><div class="view" id="' 
+							+ element.id + '"><input class="toggle" type="checkbox"><label>' 
+							+ element.todo + '</label><button class="destroy"></button></div></li>';
+							todoCount++;
+					}
+					$('.todo-list').append(text);
+					$('.todo-count').children('strong').text(todoCount);
 				});
+
+				//필터링 작업
 				doCheckFilter();
 			
 			}, //end of success
 		})
 	}
-
+	//초기 화면 혹은 새로고침 화면은 All로 한다. 
 	getList(URL, 'All');
 
 })(window);

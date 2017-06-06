@@ -56,9 +56,8 @@ public class TodoController {
 	@PutMapping("/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	void update(@PathVariable Integer id, @RequestBody Todo todo){
-	
 		service.update(todo);
-		//log.info("todo updated");
+		log.info("todo updated");
 	}
 	
 	//delete
@@ -73,7 +72,6 @@ public class TodoController {
 	@DeleteMapping
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	void deleteCompleted(){
-	//	service.delete();
 		service.deleteCompleted();
 		log.info("delete completed");
 	}
