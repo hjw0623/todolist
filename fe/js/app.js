@@ -38,7 +38,7 @@
 		})
 	}
 	//초기 화면 혹은 새로고침 화면은 All로 한다. 
-	getList(URL, 'All');
+	getList(URL);
 	/*============================================*/
 	//2. Filter
 	//selectedFilter를 통해 현재 클릭된 a 태그의 href를 읽는다.
